@@ -1118,7 +1118,7 @@ class Civilization : IsPartOfGameInfoSerialization {
                     it.hasUnique(UniqueType.MovesToNewCapital)
                 }.toSet()
 
-                oldCapital.cityConstructions.removeBuildings(buildingsToMove)
+                for (building in buildingsToMove) oldCapital.cityConstructions.removeBuilding(building)
 
                 // Add the buildings to new capital
                 for (building in buildingsToMove) city.cityConstructions.addBuilding(building)
