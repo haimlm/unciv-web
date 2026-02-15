@@ -195,6 +195,12 @@ i:b:/Skin.png:5795:1
 i:b:/Atlases.json:132:1
 i:b:/Icons.atlas:27040:1
 i:b:/mods/test-mod.zip:698:1
+i:b:/preloads/war-from-start.save.txt:7644:1
+i:b:/preloads/war-deep.meta.json:257:1
+i:b:/preloads/war-from-start.meta.json:263:1
+i:b:/preloads/war-deep.save.txt:7092:1
+i:b:/preloads/war-preworld.save.txt:7484:1
+i:b:/preloads/war-preworld.meta.json:261:1
 c:b:/com/badlogic/gdx/utils/lsans-15.png:10270:1
 c:b:/com/badlogic/gdx/graphics/g3d/shaders/default.vertex.glsl:9096:1
 c:b:/com/badlogic/gdx/graphics/g3d/particles/particles.fragment.glsl:820:1
