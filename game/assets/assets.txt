@@ -5,7 +5,7 @@ i:b:/jsons/TileSets/Minimal.json:435:1
 i:b:/jsons/TileSets/FantasyHex.json:6560:1
 i:b:/jsons/Civ V - Gods & Kings/Units.json:49062:1
 i:b:/jsons/Civ V - Gods & Kings/Buildings.json:40149:1
-i:b:/jsons/Civ V - Gods & Kings/Personalities.json:24998:1
+i:b:/jsons/Civ V - Gods & Kings/Personalities.json:26298:1
 i:b:/jsons/Civ V - Gods & Kings/Policies.json:24544:1
 i:b:/jsons/Civ V - Gods & Kings/GlobalUniques.json:1347:1
 i:b:/jsons/Civ V - Gods & Kings/Speeds.json:5154:1
@@ -48,54 +48,54 @@ i:b:/jsons/Civ V - Vanilla/Eras.json:8678:1
 i:b:/jsons/Civ V - Vanilla/Techs.json:20297:1
 i:b:/jsons/Civ V - Vanilla/Difficulties.json:7408:1
 i:b:/jsons/Civ V - Vanilla/VictoryTypes.json:3469:1
-i:b:/jsons/translations/Russian.properties:686897:1
-i:b:/jsons/translations/Czech.properties:445277:1
-i:b:/jsons/translations/Ukrainian.properties:673700:1
-i:b:/jsons/translations/Turkish.properties:498789:1
-i:b:/jsons/translations/completionPercentages.properties:692:1
-i:b:/jsons/translations/Korean.properties:483217:1
-i:b:/jsons/translations/Portuguese.properties:519314:1
-i:b:/jsons/translations/French.properties:540189:1
-i:b:/jsons/translations/English.properties:393778:1
-i:b:/jsons/translations/Lithuanian.properties:442977:1
-i:b:/jsons/translations/Japanese.properties:522984:1
-i:b:/jsons/translations/Spanish.properties:520596:1
-i:b:/jsons/translations/template.properties:64109:1
+i:b:/jsons/translations/Russian.properties:687429:1
+i:b:/jsons/translations/Czech.properties:445909:1
+i:b:/jsons/translations/Ukrainian.properties:674213:1
+i:b:/jsons/translations/Turkish.properties:499388:1
+i:b:/jsons/translations/completionPercentages.properties:694:1
+i:b:/jsons/translations/Korean.properties:483820:1
+i:b:/jsons/translations/Portuguese.properties:519915:1
+i:b:/jsons/translations/French.properties:541123:1
+i:b:/jsons/translations/English.properties:394479:1
+i:b:/jsons/translations/Lithuanian.properties:443610:1
+i:b:/jsons/translations/Japanese.properties:523767:1
+i:b:/jsons/translations/Spanish.properties:521195:1
+i:b:/jsons/translations/template.properties:64515:1
 i:b:/jsons/translations/Croatian instructions.md:16366:1
-i:b:/jsons/translations/Italian.properties:528785:1
-i:b:/jsons/translations/Afrikaans.properties:396345:1
-i:b:/jsons/translations/Dutch.properties:514515:1
-i:b:/jsons/translations/Swedish.properties:438316:1
-i:b:/jsons/translations/Thai.properties:414239:1
-i:b:/jsons/translations/Finnish.properties:399381:1
-i:b:/jsons/translations/Bulgarian.properties:462414:1
-i:b:/jsons/translations/Maltese.properties:523650:1
-i:b:/jsons/translations/Norwegian.properties:403672:1
-i:b:/jsons/translations/Romanian.properties:431118:1
-i:b:/jsons/translations/Latin.properties:449599:1
+i:b:/jsons/translations/Italian.properties:529668:1
+i:b:/jsons/translations/Afrikaans.properties:396997:1
+i:b:/jsons/translations/Dutch.properties:520471:1
+i:b:/jsons/translations/Swedish.properties:438948:1
+i:b:/jsons/translations/Thai.properties:414940:1
+i:b:/jsons/translations/Finnish.properties:400009:1
+i:b:/jsons/translations/Bulgarian.properties:462937:1
+i:b:/jsons/translations/Maltese.properties:524260:1
+i:b:/jsons/translations/Norwegian.properties:404315:1
+i:b:/jsons/translations/Romanian.properties:431735:1
+i:b:/jsons/translations/Latin.properties:450225:1
 i:b:/jsons/translations/Persian instructions.txt:2622:1
-i:b:/jsons/translations/Croatian.properties:507101:1
-i:b:/jsons/translations/Filipino.properties:455775:1
-i:b:/jsons/translations/Persian_(Pinglish-UN).properties:399146:1
-i:b:/jsons/translations/Polish.properties:521063:1
-i:b:/jsons/translations/Hungarian.properties:477862:1
-i:b:/jsons/translations/Belarusian.properties:415174:1
-i:b:/jsons/translations/Hindi.properties:409145:1
-i:b:/jsons/translations/Vietnamese.properties:597624:1
-i:b:/jsons/translations/Galician.properties:515232:1
-i:b:/jsons/translations/Bosnian.properties:395873:1
-i:b:/jsons/translations/Simplified_Chinese.properties:494572:1
-i:b:/jsons/translations/Brazilian_Portuguese.properties:523386:1
-i:b:/jsons/translations/Persian_(Pinglish-DIN).properties:398637:1
-i:b:/jsons/translations/Traditional_Chinese.properties:491236:1
-i:b:/jsons/translations/Malay.properties:392923:1
-i:b:/jsons/translations/Greek.properties:399755:1
-i:b:/jsons/translations/Catalan.properties:528732:1
-i:b:/jsons/translations/German.properties:539560:1
-i:b:/jsons/translations/Rusyn.properties:439076:1
-i:b:/jsons/translations/Zulu.properties:396922:1
-i:b:/jsons/translations/Bangla.properties:443855:1
-i:b:/jsons/translations/Indonesian.properties:523813:1
+i:b:/jsons/translations/Croatian.properties:507747:1
+i:b:/jsons/translations/Filipino.properties:456387:1
+i:b:/jsons/translations/Persian_(Pinglish-UN).properties:399793:1
+i:b:/jsons/translations/Polish.properties:523952:1
+i:b:/jsons/translations/Hungarian.properties:478467:1
+i:b:/jsons/translations/Belarusian.properties:415698:1
+i:b:/jsons/translations/Hindi.properties:409550:1
+i:b:/jsons/translations/Vietnamese.properties:598558:1
+i:b:/jsons/translations/Galician.properties:515842:1
+i:b:/jsons/translations/Bosnian.properties:396574:1
+i:b:/jsons/translations/Simplified_Chinese.properties:495153:1
+i:b:/jsons/translations/Brazilian_Portuguese.properties:524306:1
+i:b:/jsons/translations/Persian_(Pinglish-DIN).properties:399325:1
+i:b:/jsons/translations/Traditional_Chinese.properties:491834:1
+i:b:/jsons/translations/Malay.properties:393537:1
+i:b:/jsons/translations/Greek.properties:400456:1
+i:b:/jsons/translations/Catalan.properties:529674:1
+i:b:/jsons/translations/German.properties:540208:1
+i:b:/jsons/translations/Rusyn.properties:439777:1
+i:b:/jsons/translations/Zulu.properties:397571:1
+i:b:/jsons/translations/Bangla.properties:445407:1
+i:b:/jsons/translations/Indonesian.properties:524654:1
 i:b:/jsons/ModCategories.json:1067:1
 i:b:/jsons/WesnothImportMappings.json:3309:1
 i:b:/Flags.png:268311:1
@@ -193,7 +193,7 @@ i:b:/Skin.atlas:1753:1
 i:b:/ReligionIcons.atlas:2145:1
 i:b:/Skin.png:5795:1
 i:b:/Atlases.json:132:1
-i:b:/Icons.atlas:27040:1
+i:b:/Icons.atlas:27156:1
 i:b:/mods/test-mod.zip:698:1
 i:b:/preloads/war-from-start.save.txt:7644:1
 i:b:/preloads/war-deep.meta.json:257:1
