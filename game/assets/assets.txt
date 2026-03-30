@@ -29,7 +29,7 @@ i:b:/Skin.png:5795:1
 i:b:/Tilesets.png:976061:1
 i:b:/EasterEggs.png:175142:1
 i:b:/Skin.atlas:1753:1
-i:b:/Skin.json:10704:1
+i:b:/Skin.json:11247:1
 i:b:/NationIcons.png:205494:1
 i:b:/Flags.png:268311:1
 i:b:/Tech.png:210775:1
