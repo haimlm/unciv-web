@@ -41,6 +41,7 @@ import com.unciv.ui.screens.basescreen.RecreateOnResize
 import com.unciv.ui.screens.pickerscreens.PickerScreen
 import com.unciv.utils.Concurrency
 import com.unciv.utils.Log
+import com.unciv.utils.AppClipboard
 import com.unciv.utils.isUUID
 import java.net.URI
 import kotlin.math.floor
@@ -130,7 +131,10 @@ class NewGameScreen(
         }
 
         initStep = "create start game button"
-        val startGameButton = "Start game!".toTextButton().apply { color = Color.GREEN }        
+        val startGameButton = "Start game!".toTextButton().apply {
+            color = Color.GREEN
+            name = "newgame.start_game"
+        }
         startGameButton.onClick(this::startGameAvoidANRs)
         horizontalGroup.addActor(startGameButton)
         pickerPane.rightSideButton.remove()
@@ -377,7 +381,7 @@ class NewGameScreen(
                         row()
                         addGoodSizedLabel("Maybe you put too many players into too small a map?").row()
                         addButton("Copy to clipboard"){
-                            Gdx.app.clipboard.contents = exception.stackTraceToString()
+                            AppClipboard.writeText(exception.stackTraceToString())
                         }
                         addCloseButton()
                     }
@@ -423,7 +427,7 @@ class NewGameScreen(
             if (newGame.gameParameters.isOnlineMultiplayer) {
                 Concurrency.runOnGLThread {
                         // Save gameId to clipboard because you have to do it anyway.
-                        Gdx.app.clipboard.contents = newGame.gameId
+                        AppClipboard.writeText(newGame.gameId)
                         // Popup to notify the User that the gameID got copied to the clipboard
                         ToastPopup("Game ID copied to clipboard!".tr(), worldScreen, 2500)
                 }
