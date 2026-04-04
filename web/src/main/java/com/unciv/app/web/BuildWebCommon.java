@@ -3,6 +3,7 @@ package com.unciv.app.web;
 import com.github.xpenatan.gdx.teavm.backends.shared.config.AssetFileHandle;
 import com.github.xpenatan.gdx.teavm.backends.web.config.TeaBuildConfiguration;
 import com.github.xpenatan.gdx.teavm.backends.web.config.TeaBuilder;
+import com.github.xpenatan.gdx.teavm.backends.web.config.plugins.TeaReflectionSupplier;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
@@ -37,8 +38,12 @@ final class BuildWebCommon {
             "com.badlogic.gdx.utils.Json$Serializable");
     private static final List<String> PRESERVED_CLASSES = List.of(
             "com.badlogic.gdx.scenes.scene2d.ui.Skin",
+            "com.unciv.models.stats.Stats",
             "com.unciv.models.stats.NamedStats",
             "com.unciv.models.ruleset.ModOptions",
+            "com.unciv.models.ruleset.RulesetObject",
+            "com.unciv.models.ruleset.RulesetStatsObject",
+            "com.unciv.models.metadata.WebLocaleBridge",
             "com.unciv.models.ruleset.TechColumn",
             "com.unciv.models.ruleset.tech.Technology",
             "com.unciv.models.ruleset.Building",
@@ -66,6 +71,7 @@ final class BuildWebCommon {
             "com.unciv.models.ruleset.Event",
             "com.unciv.models.ruleset.EventChoice",
             "com.unciv.models.ruleset.Tutorial",
+            "com.unciv.ui.screens.pickerscreens.PromotionScreenColors",
             "com.unciv.logic.GameInfo",
             "com.unciv.logic.VictoryData",
             "com.unciv.logic.map.TileMap",
@@ -107,7 +113,10 @@ final class BuildWebCommon {
             "com.unciv.models.Spy",
             "com.unciv.models.ruleset.unique.TemporaryUnique",
             "com.unciv.models.metadata.GameParameters",
-            "com.unciv.logic.map.MapParameters");
+            "com.unciv.logic.map.MapParameters",
+            "com.unciv.logic.GameInfoPreview",
+            "com.unciv.logic.civilization.CivilizationInfoPreview",
+            "com.unciv.logic.map.TileMap$Preview");
 
     private BuildWebCommon() {
     }
@@ -122,6 +131,7 @@ final class BuildWebCommon {
 
         cleanupOutput(outputPath);
         ensureDirectory(outputPath);
+        ensureDirectory(webappPath);
         ensureDirectory(webResourcesPath);
 
         TeaBuildConfiguration configuration = new TeaBuildConfiguration();
@@ -135,8 +145,12 @@ final class BuildWebCommon {
         if (Files.isDirectory(webTestAssetsPath)) {
             configuration.assetsPath.add(new AssetFileHandle(webTestAssetsPath.toString()));
         }
+        Set<String> serializableClasses = discoverSerializableClasses();
+        Set<String> reflectionClasses = new LinkedHashSet<>(PRESERVED_CLASSES);
+        reflectionClasses.addAll(serializableClasses);
         configuration.classesToPreserve.addAll(PRESERVED_CLASSES);
-        configuration.classesToPreserve.addAll(discoverSerializableClasses());
+        configuration.classesToPreserve.addAll(serializableClasses);
+        registerReflectionClasses(reflectionClasses);
 
         TeaBuilder.config(configuration);
 
@@ -476,14 +490,75 @@ final class BuildWebCommon {
             String hardened =
                     "<script>\n"
                             + "            (function () {\n"
+                            + "                var maxBootRetries = 8;\n"
+                            + "                var baseRetryDelayMs = 50;\n"
+                            + "                var bootWatchdogDelayMs = 4000;\n"
+                            + "                function hasBootProgress() {\n"
+                            + "                    var search = (window.location && window.location.search) || '';\n"
+                            + "                    var jsTestsMode = window.__uncivEnableJsTests === true || search.indexOf('jstests=1') !== -1;\n"
+                            + "                    if (jsTestsMode) return true;\n"
+                            + "                    var bootMarker = window.__uncivBootProgressMarker;\n"
+                            + "                    var hasMeaningfulBootMarker = typeof bootMarker === 'string'\n"
+                            + "                        && bootMarker.length > 0\n"
+                            + "                        && bootMarker !== 'launcher-main-entry';\n"
+                            + "                    return !!(\n"
+                            + "                        hasMeaningfulBootMarker\n"
+                            + "                        ||\n"
+                            + "                        window.__uncivRunnerSelected\n"
+                            + "                        || window.__uncivWebValidationState\n"
+                            + "                        || window.__uncivUiProbeState\n"
+                            + "                        || window.__uncivMpProbeState\n"
+                            + "                        || window.__uncivJsTestsState\n"
+                            + "                        || window.__uncivWebValidationDone === true\n"
+                            + "                        || window.__uncivUiProbeResultJson\n"
+                            + "                        || window.__uncivMpProbeResultJson\n"
+                            + "                        || window.__uncivJsTestsDone === true\n"
+                            + "                        || window.__uncivJsTestsResultJson\n"
+                            + "                    );\n"
+                            + "                }\n"
+                            + "                function scheduleBootWatchdog(bootToken) {\n"
+                            + "                    setTimeout(function () {\n"
+                            + "                        if (window.__uncivBootToken !== bootToken) return;\n"
+                            + "                        if (window.__uncivBootInProgress) {\n"
+                            + "                            scheduleBootWatchdog(bootToken);\n"
+                            + "                            return;\n"
+                            + "                        }\n"
+                            + "                        if (!window.__uncivBootStarted || hasBootProgress()) return;\n"
+                            + "                        window.__uncivBootStarted = false;\n"
+                            + "                        window.__uncivBootFailures = (window.__uncivBootFailures || 0) + 1;\n"
+                            + "                        if (window.__uncivBootFailures <= maxBootRetries) {\n"
+                            + "                            var retryMs = baseRetryDelayMs * window.__uncivBootFailures;\n"
+                            + "                            console.warn('Unciv web boot stalled; retrying in ' + retryMs + 'ms');\n"
+                            + "                            setTimeout(boot, retryMs);\n"
+                            + "                        }\n"
+                            + "                    }, bootWatchdogDelayMs);\n"
+                            + "                }\n"
                             + "                function boot() {\n"
-                            + "                    if (window.__uncivBootStarted) return;\n"
+                            + "                    if (window.__uncivBootStarted || window.__uncivBootInProgress) return;\n"
                             + "                    if (typeof window.main !== 'function') {\n"
                             + "                        setTimeout(boot, 25);\n"
                             + "                        return;\n"
                             + "                    }\n"
-                            + "                    window.__uncivBootStarted = true;\n"
-                            + "                    window.main();\n"
+                            + "                    window.__uncivBootInProgress = true;\n"
+                            + "                    var bootToken = Date.now() + ':' + Math.random();\n"
+                            + "                    window.__uncivBootToken = bootToken;\n"
+                            + "                    try {\n"
+                            + "                        window.__uncivBootStarted = true;\n"
+                            + "                        window.main();\n"
+                            + "                        scheduleBootWatchdog(bootToken);\n"
+                            + "                    } catch (err) {\n"
+                            + "                        window.__uncivBootStarted = false;\n"
+                            + "                        window.__uncivBootInProgress = false;\n"
+                            + "                        window.__uncivBootFailures = (window.__uncivBootFailures || 0) + 1;\n"
+                            + "                        if (window.__uncivBootFailures <= maxBootRetries) {\n"
+                            + "                            var retryMs = baseRetryDelayMs * window.__uncivBootFailures;\n"
+                            + "                            console.warn('Unciv web boot failed; retrying in ' + retryMs + 'ms', err);\n"
+                            + "                            setTimeout(boot, retryMs);\n"
+                            + "                            return;\n"
+                            + "                        }\n"
+                            + "                        throw err;\n"
+                            + "                    }\n"
+                            + "                    window.__uncivBootInProgress = false;\n"
                             + "                }\n"
                             + "                if (document.readyState === 'complete') {\n"
                             + "                    setTimeout(boot, 0);\n"
@@ -515,6 +590,19 @@ final class BuildWebCommon {
             Files.move(src, dest);
         } catch (IOException e) {
             throw new RuntimeException("Failed moving JS output " + fileName, e);
+        }
+    }
+
+    /**
+     * Register reflection metadata for the actual preserved serialized model set so web can
+     * use the shared JSON contract without keeping parallel hand-written rehydration paths.
+     */
+    private static void registerReflectionClasses(Set<String> reflectionClasses) {
+        for (String className : reflectionClasses) {
+            if (className == null || className.isBlank()) continue;
+            if (isExcludedPreserveClass(className)) continue;
+            if (TeaReflectionSupplier.containsReflection(className)) continue;
+            TeaReflectionSupplier.addReflectionClass(className);
         }
     }
 }
