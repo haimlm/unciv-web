@@ -120,12 +120,14 @@ open class UncivGame(val isConsoleMode: Boolean = false) : Game(), PlatformSpeci
 
         if (PlatformCapabilities.current.onlineMultiplayer) {
             onlineMultiplayer = Multiplayer()
-            Concurrency.run {
-                // Check if the server is available in case the feature set has changed
-                try {
-                    onlineMultiplayer.multiplayerServer.checkServerStatus()
-                } catch (ex: Exception) {
-                    debug("Couldn't connect to server: " + ex.message)
+            if (Gdx.app.type != Application.ApplicationType.WebGL) {
+                Concurrency.run {
+                    // Check if the server is available in case the feature set has changed
+                    try {
+                        onlineMultiplayer.multiplayerServer.checkServerStatus()
+                    } catch (ex: Exception) {
+                        debug("Couldn't connect to server: " + ex.message)
+                    }
                 }
             }
         }
@@ -152,6 +154,9 @@ open class UncivGame(val isConsoleMode: Boolean = false) : Game(), PlatformSpeci
             translations.tryReadTranslationForCurrentLanguage()
             translations.loadPercentageCompleteOfLanguages()
             TileSetCache.loadTileSetConfigs()
+            if (settings.tileSet !in TileSetCache) { // The configured tileset is no longer available, default back
+                settings.tileSet = Constants.defaultTileset
+            }
 
             SkinCache.loadSkinConfigs()
 
@@ -518,7 +523,7 @@ open class UncivGame(val isConsoleMode: Boolean = false) : Game(), PlatformSpeci
 
     companion object {
         //region AUTOMATICALLY GENERATED VERSION DATA - DO NOT CHANGE THIS REGION, INCLUDING THIS COMMENT
-        val VERSION = Version("4.19.19", 1210)
+        val VERSION = Version("4.19.12", 1200)
         //endregion
 
         /** Global reference to the one Gdx.Game instance created by the platform launchers - do not use without checking [isCurrentInitialized] first. */
@@ -542,6 +547,7 @@ open class UncivGame(val isConsoleMode: Boolean = false) : Game(), PlatformSpeci
                 return // kotlin coroutines use this for control flow... so we can just ignore them.
             }
             Log.error("Uncaught throwable", ex)
+            Log.error("Uncaught throwable stacktrace: %s", ex.stackTraceToString())
             Log.error("Uncaught throwable diagnostic: %s", ex.buildDiagnostic())
             dumpLastError(ex)
             Gdx.app.postRunnable {
